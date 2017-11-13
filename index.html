@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>todolist-vue</title>
+	<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+	<style>
+	*{margin: 0;padding: 0}
+	#app{
+		background: pink;
+		text-align: center;
+	}
+	.finished{
+		text-decoration: line-through;
+		color: #aaa;
+	}
+	.input{
+		display: inline-block;
+		vertical-align: top;
+		width: 200px;
+		height: 25px;
+		line-height: 25px;
+		font-size:20px;
+		padding: 3px 0; 
+		padding-left: 10px
+	}
+	.affirm{
+		display: inline-block;
+		vertical-align: top;
+		height: 35px;
+		padding: 0 10px;
+		border: 1px solid blue;
+	}
+	ul{
+		max-width: 270px;
+		margin: 0 auto;
+	}
+	ul>li{
+		list-style: none;
+		padding: 3px;
+		margin: 2px 0;
+	}
+	ul>li:hover{
+		background: rgb(213,2,40);
+	}
+	ul>li>input,ul>li>div,ul>li>span{
+		display: inline-block;
+		vertical-align: top;
+	}
+	ul>li>.off{
+		float: left;
+	}
+	.remove{
+		display: none;
+		float: right;
+		padding:0 5px
+	}
+	ul>li:hover .remove{
+		display: block
+	}
+</style>
+</head>
+<body>
+	<div id="app" class="app">
+		<h1>{{title}}</h1>
+		<div>
+			<input class="input" type="text" v-model="newText" name="" @keyup.enter='addNewList'>
+			<input class='affirm' type="button" value="添加" @click="addNewList"/>
+		</div>
+		<ul>
+			<li v-for="(item,$index) in items" >
+				<input class='off' type="checkbox" v-model="item.isFinsished">
+				<div :class="{finished:item.isFinsished}">{{item.text}}</div>
+				<span class="remove" @click="removeList($index)">X</span>
+			</li>
+		</ul>
+	</div>
+	<script>
+		var app=new Vue({
+			el:'#app',
+			data:{
+				title : "todo List",
+				items:[{
+					text: "Java",
+					isFinsished: true
+				}, {
+					text: 'JavaScript',
+					isFinsished: false
+				}],
+				newText: '' 
+			},
+			methods: {
+				addNewList:function(){
+					var _self = this;
+					if(_self.newText){
+						_self.items.push({
+							text: _self.newText,
+							isFinsished: false
+						})
+					}
+					_self.newText = ''
+				},
+				removeList:function(item){
+					this.items.splice(item,1);
+				}
+			}
+		});
+	</script>
+</body>
+</html>
